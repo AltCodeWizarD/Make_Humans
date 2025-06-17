@@ -4,13 +4,10 @@ import random
 from faker import Faker
 import file_operations
 
-# Создание директории
 os.makedirs("char_cards", exist_ok=True)
 
-# Определяем генерацию на рус. яз.
 fake = Faker("ru_RU")
 
-# Переменные пола и хар-к
 gender = ['male', 'female']
 characteristics = range(3, 18)
 
@@ -18,13 +15,10 @@ def generate_character(number):
     file_number = number + 1
     filename = os.path.join("char_cards", f"result{file_number}.svg")
     
-    # Выбираем случайный пол
     random_gender = random.choice(gender)
     
-    # Генерация случайных характеристик
     random_strength, random_agility, random_endurance, random_intelligence, random_luck = random.sample(characteristics, 5)
     
-    # Список умений
     skills = [
         'Стремительный прыжок',
         'Электрический выстрел',
@@ -36,7 +30,6 @@ def generate_character(number):
         'Огненный заряд'
     ]
     
-    # Словарь Дениса
     letters = {
         'а': 'а͠', 'б': 'б̋', 'в': 'в͒͠',
         'г': 'г͒͠', 'д': 'д̋', 'е': 'е͠',
@@ -63,7 +56,6 @@ def generate_character(number):
         ' ': ' '
     }
 
-    # Преобразуем умения в рунические
     runic_skills = []
     for skill in skills:
         runic = skill
@@ -71,12 +63,8 @@ def generate_character(number):
             runic = runic.replace(letter, replacement)
         runic_skills.append(runic)
 
-    runic_dict = dict(zip(skills, runic_skills))
-
-    # Выбираем случайные умения
     random_skill_1, random_skill_2, random_skill_3 = random.sample(runic_skills, 3)
 
-    # Генерация данных персонажа в зависимости от пола
     if random_gender == 'male':
         context = {
             "first_name": fake.first_name_male(),
@@ -108,14 +96,11 @@ def generate_character(number):
             "skill_3": random_skill_3,
         }
 
-    # Генерация и рендеринг файла
     file_operations.render_template("charsheet.svg", filename, context)
 
 def main():
-    # Генерация N персонажей
     for number in range(10):
         generate_character(number)
 
-# Проверка запуска напрямую
 if __name__ == '__main__':
     main()
