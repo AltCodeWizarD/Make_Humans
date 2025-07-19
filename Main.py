@@ -6,14 +6,13 @@ from skills_dictionary import skills
 from letters_dictionary import letters
 import file_operations
 
-os.makedirs("char_cards", exist_ok=True)
-
 fake = Faker("ru_RU")
-
+runic_skills = []
 gender = ['male', 'female']
 characteristics = range(3, 18)
 
-runic_skills = []
+os.makedirs("char_cards", exist_ok=True)
+
 for skill in skills:
     runic = skill
     for letter, replacement in letters.items():
