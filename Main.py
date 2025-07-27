@@ -7,24 +7,23 @@ from skills_dictionary import skills
 from letters_dictionary import letters
 import file_operations
 
-fake = Faker("ru_RU")
-RUNIC_SKILLS = []
+FAKE = Faker("ru_RU")
 GENDER = ['male', 'female']
-CHARACTERISTICS = range(3, 18)
-
-os.makedirs("char_cards", exist_ok=True)
-
-for skill in skills:
-    runic = skill
-    for letter, replacement in letters.items():
-        runic = runic.replace(letter, replacement)
-    RUNIC_SKILLS.append(runic)
 
 
 def generate_character(number):
+    runic_skills = []
+    for skill in skills:
+        runic = skill
+        for letter, replacement in letters.items():
+            runic = runic.replace(letter, replacement)
+        runic_skills.append(runic)
+
+    os.makedirs("char_cards", exist_ok=True)
     file_number = number + 1
     filename = os.path.join("char_cards", f"result{file_number}.svg")
 
+    chatacteristics = range(3, 18)
     random_gender = random.choice(GENDER)
 
     (
@@ -33,13 +32,13 @@ def generate_character(number):
         random_endurance,
         random_intelligence,
         random_luck
-    ) = random.sample(CHARACTERISTICS, 5)
+    ) = random.sample(chatacteristics, 5)
 
     (
         random_skill_1,
         random_skill_2,
         random_skill_3
-    ) = random.sample(RUNIC_SKILLS, 3)
+    ) = random.sample(runic_skills, 3)
 
     if random_gender == 'male':
         first_name = FAKE.first_name_male()
