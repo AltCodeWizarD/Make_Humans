@@ -11,20 +11,11 @@ FAKE = Faker("ru_RU")
 GENDER = ['male', 'female']
 
 
-def generate_character(number):
-    runic_skills = []
-    for skill in skills:
-        runic = skill
-        for letter, replacement in letters.items():
-            runic = runic.replace(letter, replacement)
-        runic_skills.append(runic)
-
-    os.makedirs("char_cards", exist_ok=True)
+def generate_character(number, runic_skills):
+    characteristics = range(3, 18)
+    random_gender = random.choice(GENDER)
     file_number = number + 1
     filename = os.path.join("char_cards", f"result{file_number}.svg")
-
-    chatacteristics = range(3, 18)
-    random_gender = random.choice(GENDER)
 
     (
         random_strength,
@@ -32,7 +23,7 @@ def generate_character(number):
         random_endurance,
         random_intelligence,
         random_luck
-    ) = random.sample(chatacteristics, 5)
+    ) = random.sample(characteristics, 5)
 
     (
         random_skill_1,
@@ -66,8 +57,17 @@ def generate_character(number):
 
 
 def main():
+    runic_skills = []
+    for skill in skills:
+        runic = skill
+        for letter, replacement in letters.items():
+            runic = runic.replace(letter, replacement)
+        runic_skills.append(runic)
+
+    os.makedirs("char_cards", exist_ok=True)
+
     for number in range(10):
-        generate_character(number)
+        generate_character(number, runic_skills)
 
 
 if __name__ == '__main__':
